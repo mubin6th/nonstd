@@ -1,7 +1,7 @@
 <div align="center">
     <h1>nonstd</h1>
     <p>
-        A general purpose library providing data structres<br>and modern features to The C
+        A general purpose library providing data structres and<br>modern features to The C
         Programming Language.
     </p>
 </div>
