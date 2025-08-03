@@ -19,9 +19,7 @@ With nonstd, you don't have to implement common data structures for your project
 - [ ] data_structs/set
 - [ ] data_structs/multiset
 - [ ] data_structs/map
-- [ ] meta/result - Rust like result type.
-- [ ] meta/defer - Go/Zig like defer.
-- [ ] meta/match - Rust like match statement. (unlikely to succeed)
+- [ ] types/result - Rust like result type.
 
 ## Contributing
 The codestyle, issue report and examples shall be written later and will be found in
