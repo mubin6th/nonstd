@@ -12,8 +12,8 @@ programming languages. The implementation of such features shall be simple and r
 With nonstd, you don't have to implement common data structures for your projects.
 
 ## Features
-- [ ] data_structs/array - Constant array with size.
 - [ ] data_structs/string - Dynamically resizing string.
+- [ ] data_structs/string_view - A pointer to a string without ownership.
 - [ ] data_structs/arraylist - Dynamically resizing array.
 - [ ] data_structs/queue
 - [ ] data_structs/set
