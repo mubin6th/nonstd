@@ -16,6 +16,7 @@ With nonstd, you don't have to implement common data structures for your project
 - [ ] data_structs/string_view - A pointer to a string without ownership.
 - [ ] data_structs/arraylist - Dynamically resizing array.
 - [ ] data_structs/queue
+- [ ] data_structs/deque
 - [ ] data_structs/set
 - [ ] data_structs/multiset
 - [ ] data_structs/map
