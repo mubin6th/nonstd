@@ -1,5 +1,5 @@
-#ifndef _NONSTD_ARRAY_H_
-#define _NONSTD_ARRAY_H_
+#ifndef NONSTD_DATA_STRUCTS_ARRAY_H_INCLUDED
+#define NONSTD_DATA_STRUCTS_ARRAY_H_INCLUDED
 
 #include <stddef.h>
 
