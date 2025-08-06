@@ -12,13 +12,15 @@
 typedef struct nonstd_arraylist_header_t {
     size_t capacity;
     size_t length;
-    size_t byte_size;
+    size_t type_size;
 } nonstd_arraylist_header_t;
 
 void *nonstd_arraylist_init(size_t type_size, size_t initial_capacity);
 void nonstd_arraylist_deinit(void *self);
 nonstd_arraylist_header_t *nonstd_arraylist_header(void *self);
-void nonstd_arraylist_length(void *self);
+size_t nonstd_arraylist_length(void *self);
+void *nonstd_arraylist_front(void *self);
+void *nonstd_arraylist_back(void *self);
 void nonstd_arraylist_reserve(void *self, size_t capacity);
 void nonstd_arraylist_pop(void *self);
 void nonstd_arraylist_pop_array(void *self, size_t count);
