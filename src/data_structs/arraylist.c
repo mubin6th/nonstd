@@ -22,7 +22,7 @@ void *nonstd_arraylist_init(size_t type_size, size_t initial_capacity)
     };
 
     nonstd_arraylist_header_t *arraylist = (nonstd_arraylist_header_t *)malloc(
-        sizeof(header) + type_size * initial_capacity
+        sizeof(header) + initial_capacity * type_size
     );
     arraylist[0] = header;
 
@@ -62,15 +62,15 @@ void *nonstd_arraylist_back(void *self)
     return &((char*)self)[(header->length - 1) * header->type_size];
 }
 
-void nonstd_arraylist_reserve(void *self, size_t capacity)
+void nonstd_arraylist_reserve(void **self, size_t capacity)
 {
-    nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
+    nonstd_arraylist_header_t *header = nonstd_arraylist_header(*self);
     if (header->capacity >= capacity) {
         return;
     }
-    header = realloc(header, sizeof(*header) + header->type_size * capacity);
+    header = realloc(header, sizeof(*header) + capacity * header->type_size);
     header->capacity = capacity;
-    self = &header[1];
+    *self = &header[1];
 }
 
 void nonstd_arraylist_pop(void *self)
@@ -94,7 +94,7 @@ void nonstd_arraylist_pop_array(void *self, size_t count)
 void nonstd_arraylist_erase_unorderd_at(void *self, size_t idx)
 {
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
-    if (header->length < idx + 1) {
+    if (idx + 1 > header->length) {
         return;
     }
     nonstd_math_swap(
@@ -105,7 +105,25 @@ void nonstd_arraylist_erase_unorderd_at(void *self, size_t idx)
     header->length--;
 }
 
-void nonstd_arraylist_erase_at(void *self, size_t idx);
+void nonstd_arraylist_erase_at(void *self, size_t idx)
+{
+    nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
+    if (idx + 1 > header->length) {
+        return;
+    }
+    if (idx + 1 == header->length) {
+        nonstd_arraylist_pop(self);
+        return;
+    }
+    for (size_t i = idx + 1; i < header->length; i++) {
+        memcpy(
+            &((char*)self)[(i - 1) * header->type_size],
+            &((char*)self)[i * header->type_size],
+            header->type_size
+        );
+    }
+}
+
 void nonstd_arraylist_erase_subarray(void *self, size_t idx, size_t length);
 
 void nonstd_arraylist_erase_all(void *self)
