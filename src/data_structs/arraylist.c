@@ -68,8 +68,9 @@ void nonstd_arraylist_reserve(void *self, size_t capacity)
     if (header->capacity >= capacity) {
         return;
     }
-    self = realloc(self, capacity);
+    header = realloc(header, sizeof(*header) + header->type_size * capacity);
     header->capacity = capacity;
+    self = &header[1];
 }
 
 void nonstd_arraylist_pop(void *self)
