@@ -6,6 +6,8 @@
 // TODO: Implement these.
 #define nonstd_arraylist_append_M 1
 #define nonstd_arraylist_append_array_M 1
+#define nonstd_arraylist_insert_at_M 1
+#define nonstd_arraylist_insert_subarray_M 1
 
 typedef struct nonstd_arraylist_header_t {
     size_t capacity;
