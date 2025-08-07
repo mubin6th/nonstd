@@ -122,6 +122,7 @@ void nonstd_arraylist_erase_at(void *self, size_t idx)
             header->type_size
         );
     }
+    header->length--;
 }
 
 void nonstd_arraylist_erase_subarray(void *self, size_t idx, size_t length);
