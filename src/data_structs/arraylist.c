@@ -84,7 +84,7 @@ void nonstd_arraylist_pop(void *self)
 void nonstd_arraylist_pop_array(void *self, size_t count)
 {
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
-    if (header->length <= count) {
+    if (count >= header->length) {
         header->length = 0;
         return;
     }
@@ -107,25 +107,28 @@ void nonstd_arraylist_erase_unorderd_at(void *self, size_t idx)
 
 void nonstd_arraylist_erase_at(void *self, size_t idx)
 {
+    nonstd_arraylist_erase_subarray(self, idx, 1);
+}
+
+void nonstd_arraylist_erase_subarray(void *self, size_t idx, size_t length)
+{
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
-    if (idx + 1 > header->length) {
+    if (length == 0 || idx + 1 > header->length) {
         return;
     }
-    if (idx + 1 == header->length) {
-        nonstd_arraylist_pop(self);
+    if (idx + length >= header->length) {
+        nonstd_arraylist_pop_array(self, header->length - idx);
         return;
     }
-    for (size_t i = idx + 1; i < header->length; i++) {
+    for (size_t i = idx + length; i < header->length; i++) {
         memcpy(
-            &((char*)self)[(i - 1) * header->type_size],
+            &((char*)self)[(i - length) * header->type_size],
             &((char*)self)[i * header->type_size],
             header->type_size
         );
     }
-    header->length--;
+    header->length -= length;
 }
-
-void nonstd_arraylist_erase_subarray(void *self, size_t idx, size_t length);
 
 void nonstd_arraylist_erase_all(void *self)
 {
