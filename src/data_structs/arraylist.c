@@ -73,6 +73,14 @@ void nonstd_arraylist_reserve(void **self, size_t capacity)
     *self = &header[1];
 }
 
+void nonstd_arraylist_shrink_to_fit(void **self)
+{
+    nonstd_arraylist_header_t *header = nonstd_arraylist_header(*self);
+    header->capacity = header->length;
+    header = realloc(header, sizeof(*header) + header->capacity * header->type_size);
+    *self = &header[1];
+}
+
 void nonstd_arraylist_pop(void *self)
 {
     if (nonstd_arraylist_length(self) == 0) {

@@ -22,6 +22,7 @@ size_t nonstd_arraylist_length(void *self);
 void *nonstd_arraylist_front(void *self);
 void *nonstd_arraylist_back(void *self);
 void nonstd_arraylist_reserve(void **self, size_t capacity);
+void nonstd_arraylist_shrink_to_fit(void **self);
 void nonstd_arraylist_pop(void *self);
 void nonstd_arraylist_pop_array(void *self, size_t count);
 void nonstd_arraylist_erase_unorderd_at(void *self, size_t idx);
