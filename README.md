@@ -25,6 +25,7 @@ are not availble now are not checkmarked and the Source and Docs link are not re
 | <ul><li>- [ ] multiset</li></ul> | The multiset data structure (sorted array) | Source & Docs |
 | <ul><li>- [ ] map</li></ul> | The map data structure (key-value pairs) | Source & Docs |
 | <ul><li>- [ ] result</li></ul> | Rust like result type | Source & Docs |
+| <ul><li>- [ ] test</li></ul> | A simple unit tester | Source & Docs |
 
 ## Contributing
 The codestyle, issue report and examples shall be written later and will be found in
