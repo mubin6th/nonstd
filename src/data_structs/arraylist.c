@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "../../include/nonstd/data_structs/arraylist.h"
 
 /*
@@ -15,10 +16,14 @@ static void nonstd_math_swap(size_t type_size, void *a, void *b)
 
 void *nonstd_arraylist_init(size_t type_size, size_t initial_capacity)
 {
+    if (initial_capacity == 0) {
+        initial_capacity = 1;
+    }
     nonstd_arraylist_header_t header = {
         .type_size = type_size,
         .capacity = initial_capacity,
-        .length = 0
+        .length = 0,
+        .growth_rate = NONSTD_ARRAYLIST_GROWTH_HALF_DOUBLE
     };
 
     nonstd_arraylist_header_t *arraylist = (nonstd_arraylist_header_t *)malloc(
@@ -43,6 +48,30 @@ nonstd_arraylist_header_t *nonstd_arraylist_header(void *self)
 size_t nonstd_arraylist_length(void *self)
 {
     return nonstd_arraylist_header(self)->length;
+}
+
+size_t nonstd_arraylist_next_growth_length(void *self, size_t append_length)
+{
+    nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
+    size_t out_length;
+    switch(header->growth_rate) {
+        case NONSTD_ARRAYLIST_GROWTH_LINEAR:;
+            return header->length + append_length;
+        case NONSTD_ARRAYLIST_GROWTH_DOUBLE:;
+            out_length = (header->length << 1);
+            while (out_length < header->length + append_length) {
+                out_length <<= 1;
+            }
+            return out_length;
+        case NONSTD_ARRAYLIST_GROWTH_HALF_DOUBLE:;
+            out_length = header->length + ceil((double)header->length / 2);
+            while (out_length < header->length + append_length) {
+                out_length += ceil((double)out_length / 2);
+            }
+            return out_length;
+        default:
+            return 0;
+    }
 }
 
 void *nonstd_arraylist_front(void *self)
