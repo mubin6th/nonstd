@@ -50,26 +50,23 @@ size_t nonstd_arraylist_length(void *self)
     return nonstd_arraylist_header(self)->length;
 }
 
-size_t nonstd_arraylist_next_growth_length(void *self, size_t append_length)
+void nonstd_arraylist_set_growth_rate(void *self, nonstd_arraylist_growth_t growth_rate)
+{
+    nonstd_arraylist_header(self)->growth_rate = growth_rate;
+}
+
+size_t nonstd_arraylist_next_growth_capacity(void *self)
 {
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
     switch(header->growth_rate) {
         case NONSTD_ARRAYLIST_GROWTH_LINEAR: {
-            return header->length + append_length;
+            return header->length + 1;
         }
         case NONSTD_ARRAYLIST_GROWTH_DOUBLE: {
-            size_t out_length = (header->length << 1);
-            while (out_length < header->length + append_length) {
-                out_length <<= 1;
-            }
-            return out_length;
+            return header->length << 1;
         }
         case NONSTD_ARRAYLIST_GROWTH_HALF_DOUBLE: {
-            size_t out_length = header->length + ceil((double)header->length / 2);
-            while (out_length < header->length + append_length) {
-                out_length += ceil((double)out_length / 2);
-            }
-            return out_length;
+            return header->length + ceil((double)header->length / 2);
         }
         default:
             return 0;
