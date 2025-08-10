@@ -3,7 +3,6 @@
 
 #include <stddef.h>
 
-// TODO: Implement these.
 #define nonstd_arraylist_append_M(self, value) \
     do { \
         nonstd_arraylist_header_t *nonstd_arraylist_header__ = \
