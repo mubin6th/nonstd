@@ -23,8 +23,37 @@
         self[nonstd_arraylist_header__->length++] = value; \
     } while (0)
 
-#define nonstd_arraylist_insert_subarray_M 1
-#define nonstd_arraylist_insert_at_M 1
+#define nonstd_arraylist_insert_at_M(self, idx, value) \
+    do { \
+        nonstd_arraylist_header_t *nonstd_arraylist_header__ = \
+            nonstd_arraylist_header(*self); \
+        if (nonstd_arraylist_header__->length >= nonstd_arraylist_header__->capacity) { \
+            size_t nonstd_arraylist_new_capacity__ = \
+                nonstd_arraylist_next_growth_capacity(self); \
+            nonstd_arraylist_header__ = \
+                realloc( \
+                    nonstd_arraylist_header__, \
+                    sizeof(nonstd_arraylist_header_t) + \
+                    nonstd_arraylist_new_capacity__ * \
+                    nonstd_arraylist_header__->type_size \
+                ); \
+            self = &nonstd_arraylist_header__[1]; \
+        } \
+        \
+        for ( \
+            size_t nonstd_arraylist_i__ = nonstd_arraylist_header__->length - 1; \
+            nonstd_arraylist_i__ >= idx; \
+            nonstd_arraylist_i__-- \
+        ) { \
+            memcpy( \
+                &((char*)self)[(i + 1) * nonstd_arraylist_header__->type_size], \
+                &((char*)self)[i * nonstd_arraylist_header__->type_size], \
+                nonstd_arraylist_header__->type_size \
+            ); \
+        } \
+        self[idx] = value; \
+        nonstd_arraylist_header__->length++; \
+    } while (0)
 
 typedef enum nonstd_arraylist_growth_t {
     NONSTD_ARRAYLIST_GROWTH_LINEAR,
