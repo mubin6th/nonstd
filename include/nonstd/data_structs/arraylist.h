@@ -45,8 +45,10 @@
             nonstd_arraylist_i__-- \
         ) { \
             memcpy( \
-                &((char*)self)[(i + 1) * nonstd_arraylist_header__->type_size], \
-                &((char*)self)[i * nonstd_arraylist_header__->type_size], \
+                &((char*)self)[(nonstd_arraylist_i__ + 1) * \
+                               nonstd_arraylist_header__->type_size], \
+                &((char*)self)[nonstd_arraylist_i__ * \
+                               nonstd_arraylist_header__->type_size], \
                 nonstd_arraylist_header__->type_size \
             ); \
         } \

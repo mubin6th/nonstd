@@ -60,13 +60,13 @@ size_t nonstd_arraylist_next_growth_capacity(void *self)
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
     switch(header->growth_rate) {
         case NONSTD_ARRAYLIST_GROWTH_LINEAR: {
-            return header->length + 1;
+            return header->capacity + 1;
         }
         case NONSTD_ARRAYLIST_GROWTH_DOUBLE: {
-            return header->length << 1;
+            return header->capacity << 1;
         }
         case NONSTD_ARRAYLIST_GROWTH_HALF_DOUBLE: {
-            return header->length + ceil((double)header->length / 2);
+            return header->capacity + ceil((double)header->length / 2);
         }
         default:
             return 0;
