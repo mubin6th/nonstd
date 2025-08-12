@@ -66,7 +66,7 @@ size_t nonstd_arraylist_next_growth_capacity(void *self)
             return header->capacity << 1;
         }
         case NONSTD_ARRAYLIST_GROWTH_HALF_DOUBLE: {
-            return header->capacity + ceil((double)header->length / 2);
+            return header->capacity + ceil((double)header->capacity / 2);
         }
         default:
             return 0;
