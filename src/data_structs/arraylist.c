@@ -20,9 +20,9 @@ void *nonstd_arraylist_init(size_t type_size, size_t initial_capacity)
         initial_capacity = 1;
     }
     nonstd_arraylist_header_t header = {
-        .type_size = type_size,
         .capacity = initial_capacity,
         .length = 0,
+        .type_size = type_size,
         .growth_rate = NONSTD_ARRAYLIST_GROWTH_HALF_DOUBLE
     };
 
@@ -58,16 +58,16 @@ void nonstd_arraylist_set_growth_rate(void *self, nonstd_arraylist_growth_t grow
 size_t nonstd_arraylist_next_growth_capacity(void *self)
 {
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
+    if (header->capacity == 0) {
+        header->capacity = 1;
+    }
     switch(header->growth_rate) {
-        case NONSTD_ARRAYLIST_GROWTH_LINEAR: {
+        case NONSTD_ARRAYLIST_GROWTH_LINEAR:
             return header->capacity + 1;
-        }
-        case NONSTD_ARRAYLIST_GROWTH_DOUBLE: {
+        case NONSTD_ARRAYLIST_GROWTH_DOUBLE:
             return header->capacity << 1;
-        }
-        case NONSTD_ARRAYLIST_GROWTH_HALF_DOUBLE: {
+        case NONSTD_ARRAYLIST_GROWTH_HALF_DOUBLE:
             return header->capacity + ceil((double)header->capacity / 2);
-        }
         default:
             return 0;
     }
@@ -96,7 +96,10 @@ void nonstd_arraylist_reserve(void **self, size_t capacity)
     if (header->capacity >= capacity) {
         return;
     }
-    header = realloc(header, sizeof(*header) + capacity * header->type_size);
+    header = (nonstd_arraylist_header_t *)realloc(
+        header,
+        sizeof(*header) + header->capacity * header->type_size
+    );
     header->capacity = capacity;
     *self = &header[1];
 }
@@ -105,7 +108,10 @@ void nonstd_arraylist_shrink_to_fit(void **self)
 {
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(*self);
     header->capacity = header->length;
-    header = realloc(header, sizeof(*header) + header->capacity * header->type_size);
+    header = (nonstd_arraylist_header_t *)realloc(
+        header,
+        sizeof(*header) + header->capacity * header->type_size
+    );
     *self = &header[1];
 }
 
