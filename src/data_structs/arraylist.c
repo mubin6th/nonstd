@@ -96,11 +96,11 @@ void nonstd_arraylist_reserve(void **self, size_t capacity)
     if (header->capacity >= capacity) {
         return;
     }
+    header->capacity = capacity;
     header = (nonstd_arraylist_header_t *)realloc(
         header,
         sizeof(*header) + header->capacity * header->type_size
     );
-    header->capacity = capacity;
     *self = &header[1];
 }
 
