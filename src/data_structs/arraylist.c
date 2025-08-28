@@ -8,10 +8,17 @@
  * */
 static void nonstd_math_swap(size_t type_size, void *a, void *b)
 {
+#ifdef _MSC_VER
+    char *tmp = (char*)malloc(type_size);
+#else
     char tmp[type_size];
+#endif
     memcpy(tmp, a, type_size);
     memcpy(a, b, type_size);
     memcpy(b, tmp, type_size);
+#ifdef _MSC_VER
+    free(tmp);
+#endif
 }
 
 void *nonstd_arraylist_init(size_t type_size, size_t initial_capacity)
