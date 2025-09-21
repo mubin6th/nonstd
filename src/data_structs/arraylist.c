@@ -1,6 +1,7 @@
-#include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <assert.h>
+
 #include "../../include/nonstd/data_structs/arraylist.h"
 
 /*
@@ -43,32 +44,37 @@ void *nonstd_arraylist_init(size_t type_size, size_t initial_capacity)
 
 void nonstd_arraylist_deinit(void *self)
 {
+    assert(self != NULL);
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
     free((char*)header);
 }
 
 nonstd_arraylist_header_t *nonstd_arraylist_header(void *self)
 {
+    assert(self != NULL);
     return &((nonstd_arraylist_header_t*)self)[-1];
 }
 
 size_t nonstd_arraylist_length(void *self)
 {
+    assert(self != NULL);
     return nonstd_arraylist_header(self)->length;
 }
 
 void nonstd_arraylist_set_growth_rate(void *self, nonstd_arraylist_growth_t growth_rate)
 {
+    assert(self != NULL);
     nonstd_arraylist_header(self)->growth_rate = growth_rate;
 }
 
 size_t nonstd_arraylist_next_growth_capacity(void *self)
 {
+    assert(self != NULL);
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
     if (header->capacity == 0) {
         header->capacity = 1;
     }
-    switch(header->growth_rate) {
+    switch (header->growth_rate) {
         case NONSTD_ARRAYLIST_GROWTH_LINEAR:
             return header->capacity + 1;
         case NONSTD_ARRAYLIST_GROWTH_DOUBLE:
@@ -82,14 +88,13 @@ size_t nonstd_arraylist_next_growth_capacity(void *self)
 
 void *nonstd_arraylist_front(void *self)
 {
-    if (nonstd_arraylist_length(self) == 0) {
-        return NULL;
-    }
+    assert(self != NULL);
     return &((char*)self)[0];
 }
 
 void *nonstd_arraylist_back(void *self)
 {
+    assert(self != NULL);
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
     if (header->length == 0) {
         return NULL;
@@ -99,6 +104,7 @@ void *nonstd_arraylist_back(void *self)
 
 void nonstd_arraylist_reserve(void **self, size_t capacity)
 {
+    assert(*self != NULL);
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(*self);
     if (header->capacity >= capacity) {
         return;
@@ -113,6 +119,7 @@ void nonstd_arraylist_reserve(void **self, size_t capacity)
 
 void nonstd_arraylist_shrink_to_fit(void **self)
 {
+    assert(*self != NULL);
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(*self);
     header->capacity = header->length;
     header = (nonstd_arraylist_header_t *)realloc(
@@ -124,6 +131,7 @@ void nonstd_arraylist_shrink_to_fit(void **self)
 
 void nonstd_arraylist_pop(void *self)
 {
+    assert(self != NULL);
     if (nonstd_arraylist_length(self) == 0) {
         return;
     }
@@ -132,6 +140,7 @@ void nonstd_arraylist_pop(void *self)
 
 void nonstd_arraylist_pop_array(void *self, size_t count)
 {
+    assert(self != NULL);
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
     if (count >= header->length) {
         header->length = 0;
@@ -142,6 +151,7 @@ void nonstd_arraylist_pop_array(void *self, size_t count)
 
 void nonstd_arraylist_erase_unorderd_at(void *self, size_t idx)
 {
+    assert(self != NULL);
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
     if (idx + 1 > header->length) {
         return;
@@ -161,6 +171,7 @@ void nonstd_arraylist_erase_at(void *self, size_t idx)
 
 void nonstd_arraylist_erase_subarray(void *self, size_t idx, size_t length)
 {
+    assert(self != NULL);
     nonstd_arraylist_header_t *header = nonstd_arraylist_header(self);
     if (length == 0 || idx + 1 > header->length) {
         return;
@@ -181,5 +192,6 @@ void nonstd_arraylist_erase_subarray(void *self, size_t idx, size_t length)
 
 void nonstd_arraylist_erase_all(void *self)
 {
+    assert(self != NULL);
     nonstd_arraylist_header(self)->length = 0;
 }

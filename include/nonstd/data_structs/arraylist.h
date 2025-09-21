@@ -2,6 +2,7 @@
 #define NONSTD_ARRAYLIST_INCLUDED
 
 #include <stddef.h>
+#include <stdlib.h>
 
 #define nonstd_arraylist_append_M(self, value) \
     do { \
